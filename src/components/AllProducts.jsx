@@ -5,14 +5,22 @@ import { fetchProducts } from "../AjaxHandlers";
 const AllProducts = () => {
   //States
   const {
-    values: { products, searchQuery, sortDirection, minPrice, maxPrice, },
-    setters: { setProducts, setSearchQuery, setSortDirection, setMinPrice, setMaxPrice, setCheckoutMessage, setDeleteMessage },
+    values: { products, searchQuery, sortDirection, minPrice, maxPrice },
+    setters: {
+      setProducts,
+      setSearchQuery,
+      setSortDirection,
+      setMinPrice,
+      setMaxPrice,
+      setCheckoutMessage,
+      setDeleteMessage,
+    },
   } = useOutletContext();
 
   useEffect(() => {
     fetchProducts(setProducts);
-    setCheckoutMessage("")
-    setDeleteMessage("")
+    setCheckoutMessage("");
+    setDeleteMessage("");
   }, []);
 
   const handleSearch = (e) => {
@@ -35,9 +43,13 @@ const AllProducts = () => {
   };
 
   const filteredProducts = products.filter((product) => {
-    const titleMatch = product.title.toLowerCase().includes(searchQuery.toLowerCase());
-    const minPriceMatch = minPrice === "" || parseFloat(product.price) >= parseFloat(minPrice);
-    const maxPriceMatch = maxPrice === "" || parseFloat(product.price) <= parseFloat(maxPrice);
+    const titleMatch = product.title
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
+    const minPriceMatch =
+      minPrice === "" || parseFloat(product.price) >= parseFloat(minPrice);
+    const maxPriceMatch =
+      maxPrice === "" || parseFloat(product.price) <= parseFloat(maxPrice);
     return titleMatch && minPriceMatch && maxPriceMatch;
   });
 
@@ -48,58 +60,60 @@ const AllProducts = () => {
     return sortDirection === "asc" ? priceA - priceB : priceB - priceA;
   });
 
-
   console.log("Products State:", products);
   return (
     <div className="products-container">
-  <div className="product-controls">
-    <input
-      type="text"
-      placeholder="Search by title"
-      value={searchQuery}
-      onChange={handleSearch}
-      className="search-input"
-    />
-    <div className="price-inputs">
-      <input
-        type="number"
-        placeholder="Min Price"
-        value={minPrice}
-        onChange={handleMinPriceChange}
-        className="price-input"
-      />
-      <input
-        type="number"
-        placeholder="Max Price"
-        value={maxPrice}
-        onChange={handleMaxPriceChange}
-        className="price-input"
-      />
-    </div>
-    <button onClick={handleSort} className="sort-button">
-      {sortDirection === "asc" ? "Low to High" : "High to Low"}
-    </button>
-  </div>
-  <div className="product-list">
-    {sortedProducts.length > 0 ? (
-      sortedProducts.map((product) => (
-        <div key={product.id} className="product-item">
-          <Link to={`products/${product.id}`} className="product-link">
-            <div className="product-info">
-              <img src={product.image} alt={product.title} className="product-image" />
-              <div>{product.title}</div>
-              <div>${product.price}</div>
-            </div>
-          </Link>
-          <button>Add to cart</button>
+      <div className="product-controls">
+        <input
+          type="text"
+          placeholder="Search by title"
+          value={searchQuery}
+          onChange={handleSearch}
+          className="search-input"
+        />
+        <div className="price-inputs">
+          <input
+            type="number"
+            placeholder="Min Price"
+            value={minPrice}
+            onChange={handleMinPriceChange}
+            className="price-input"
+          />
+          <input
+            type="number"
+            placeholder="Max Price"
+            value={maxPrice}
+            onChange={handleMaxPriceChange}
+            className="price-input"
+          />
         </div>
-      ))
-    ) : (
-      <div>No products found!</div>
-    )}
-  </div>
-</div>
-
+        <button onClick={handleSort} className="sort-button">
+          {sortDirection === "asc" ? "Low to High" : "High to Low"}
+        </button>
+      </div>
+      <div className="product-list">
+        {sortedProducts.length > 0 ? (
+          sortedProducts.map((product) => (
+            <div key={product.id} className="product-item">
+              <Link to={`products/${product.id}`} className="product-link">
+                <div className="product-info">
+                  <img
+                    src={product.image}
+                    alt={product.title}
+                    className="product-image"
+                  />
+                  <div>{product.title}</div>
+                  <div>${product.price}</div>
+                </div>
+              </Link>
+              <button>Add to cart</button>
+            </div>
+          ))
+        ) : (
+          <div>No products found!</div>
+        )}
+      </div>
+    </div>
   );
 };
 
