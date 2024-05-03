@@ -1,9 +1,9 @@
 // It gave me an error saying that origin has been blocked by CORS poplicy so I had to use this method to be able to make requests to the API
-const proxyUrl = "https://cors-anywhere.herokuapp.com/";
+// const proxyUrl = "https://cors-anywhere.herokuapp.com/";
 const apiUrl = "https://fakestoreapi.com";
+// const API = proxyUrl + apiUrl;
 
-
-const API = proxyUrl + apiUrl;
+const API = apiUrl
 
 //Fetch all products
 export const fetchProducts = async (setProducts) => {

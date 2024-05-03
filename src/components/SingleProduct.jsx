@@ -28,7 +28,7 @@ const SingleProduct = () => {
 
   return (
     <div className="single-product-container">
-      <div className="product-image">
+      <div className="singleProduct-image">
         <img src={product.image} width={300} alt={product.title} />
       </div>
       <div className="product-details">
